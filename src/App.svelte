@@ -5,6 +5,7 @@
 </script>
 
 <BaseButton
+	on:click={() => alert(true)}
 	let:isLeftHovered
 	size="large"
 	shadow
