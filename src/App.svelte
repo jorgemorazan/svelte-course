@@ -2,6 +2,7 @@
 	import BaseButton from './lib/BaseButton.svelte';
 </script>
 
-<BaseButton size="large" shadow>Hello</BaseButton>
+<BaseButton size="large" shadow bgColor="red" textColor="cyan">Hello</BaseButton
+>
 
 <style></style>
