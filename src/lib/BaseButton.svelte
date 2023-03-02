@@ -12,11 +12,13 @@
 	class:size-sm={size === 'small'}
 	class:shadow
 >
-	<div class="left-content">
-		<slot name="leftContent" />
-	</div>
-	<slot>Fallback</slot></button
->
+	{#if $$slots.leftContent}
+		<div class="left-content">
+			<slot name="leftContent" />
+		</div>
+	{/if}
+	<slot>Fallback</slot>
+</button>
 
 <style lang="scss">
 	button {
