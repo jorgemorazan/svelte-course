@@ -9,6 +9,7 @@
 
 <button
 	on:click
+	{...$$restProps}
 	style:--buttonBgColor={bgColor}
 	style:--buttonTextColor={textColor}
 	class:size-lg={size === 'large'}
@@ -39,6 +40,10 @@
 		cursor: pointer;
 		.left-content {
 			margin-right: 10px;
+		}
+		&:disabled {
+			opacity: 0.5;
+			cursor: not-allowed;
 		}
 		&:hover {
 			background-image: linear-gradient(rgba(0, 0, 0, 0.4) 0 0);
