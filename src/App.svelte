@@ -1,11 +1,7 @@
 <script>
-	let name = 'Svelte';
-	let src = 'https://picsum.com/1200/1200';
-	let string = 'Some <strong>string</strong> with html';
+	import Counter from './lib/Counter.svelte';
 </script>
 
-<img {src} alt="alt with {name}" />
-<h1>Hello {name.toLowerCase()}</h1>
-<p>{@html string}</p>
+<Counter />
 
 <style></style>
