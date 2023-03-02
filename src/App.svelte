@@ -4,7 +4,7 @@
 	let string = 'Some <strong>string</strong> with html';
 </script>
 
-<img {src} />
+<img {src} alt="alt with {name}" />
 <h1>Hello {name.toLowerCase()}</h1>
 <p>{@html string}</p>
 
