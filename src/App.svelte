@@ -20,20 +20,36 @@
 	];
 
 	function handleAddTodo(event) {
-		event.preventDefault();
 		todos = [
 			...todos,
 			{ id: uuid(), title: event.detail.title, completed: false }
 		];
 	}
+
 	function handleRemoveTodo(event) {
 		const id = event.detail.id;
-		console.log(id);
 		todos = todos.filter((todo) => todo.id !== id);
+	}
+
+	function handleToggleTodo(event) {
+		const id = event.detail.id;
+		const completed = event.detail.value;
+
+		todos = todos.map((todo) => {
+			if (todo.id === id) {
+				return { ...todo, completed };
+			}
+			return { ...todo };
+		});
 	}
 </script>
 
 <h2>{todos.length} - Todos</h2>
-<TodoList {todos} on:addtodo={handleAddTodo} on:removetodo={handleRemoveTodo} />
+<TodoList
+	{todos}
+	on:addtodo={handleAddTodo}
+	on:removetodo={handleRemoveTodo}
+	on:toggletodo={handleToggleTodo}
+/>
 
 <style></style>
