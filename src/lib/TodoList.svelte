@@ -1,3 +1,5 @@
+<svelte:options immutable={true} />
+
 <script lang="ts">
 	import BaseButton from './BaseButton.svelte';
 	import { createEventDispatcher } from 'svelte';
@@ -9,13 +11,13 @@
 
 	function handleAddTodo() {
 		if (!inputText) return;
-		const isCancellable = dispatch(
+		const isNotCancellable = dispatch(
 			'addtodo',
 			{ title: inputText },
 			{ cancelable: true }
 		);
 
-		if (isCancellable) {
+		if (isNotCancellable) {
 			inputText = '';
 		}
 	}
