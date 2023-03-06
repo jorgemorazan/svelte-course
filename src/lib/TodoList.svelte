@@ -21,13 +21,23 @@
 			inputText = '';
 		}
 	}
+
+	function handleRemoveTodo(id) {
+		console.log(id);
+		dispatch('removetodo', { id });
+	}
 </script>
 
 <div>
 	<ul>
-		{#each todos as { id, title }, index (id)}
-			{@const number = index + 1}
-			<li>{number} - {title}</li>
+		{#each todos as { id, title, completed } (id)}
+			<li>
+				<label>
+					<input type="checkbox" checked={completed} />
+					{title}
+				</label>
+				<button on:click={() => handleRemoveTodo(id)}>Remove</button>
+			</li>
 		{/each}
 	</ul>
 	{inputText}

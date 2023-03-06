@@ -26,9 +26,14 @@
 			{ id: uuid(), title: event.detail.title, completed: false }
 		];
 	}
+	function handleRemoveTodo(event) {
+		const id = event.detail.id;
+		console.log(id);
+		todos = todos.filter((todo) => todo.id !== id);
+	}
 </script>
 
 <h2>{todos.length} - Todos</h2>
-<TodoList {todos} on:addtodo={handleAddTodo} />
+<TodoList {todos} on:addtodo={handleAddTodo} on:removetodo={handleRemoveTodo} />
 
 <style></style>
