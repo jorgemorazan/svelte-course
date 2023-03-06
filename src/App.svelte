@@ -18,9 +18,17 @@
 			completed: true
 		}
 	];
+
+	function handleAddTodo(event) {
+		event.preventDefault();
+		todos = [
+			...todos,
+			{ id: uuid(), title: event.detail.title, completed: false }
+		];
+	}
 </script>
 
 <h2>{todos.length} - Todos</h2>
-<TodoList bind:todos />
+<TodoList {todos} on:addtodo={handleAddTodo} />
 
 <style></style>
