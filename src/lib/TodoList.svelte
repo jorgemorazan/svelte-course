@@ -2,10 +2,37 @@
 
 <script lang="ts">
 	import BaseButton from './BaseButton.svelte';
-	import { createEventDispatcher } from 'svelte';
+	import {
+		afterUpdate,
+		beforeUpdate,
+		createEventDispatcher,
+		onDestroy,
+		onMount
+	} from 'svelte';
+
+	onMount(() => {
+		console.log('Mounted');
+		return () => {
+			console.log('Destroyed 2');
+		};
+	});
+
+	onDestroy(() => {
+		console.log('Destroyed');
+	});
+
+	beforeUpdate(() => {
+		if (!listDiv) return;
+		console.log(listDiv.offsetHeight);
+	});
+
+	afterUpdate(() => {
+		console.log(listDiv.offsetHeight);
+	});
 
 	export let todos = [];
 	export const readOnly = 'readonly';
+
 	export function clearInput() {
 		inputText = '';
 	}
@@ -13,7 +40,7 @@
 		input.focus();
 	}
 	let inputText = '';
-	let input;
+	let input, listDiv;
 
 	const dispatch = createEventDispatcher();
 
@@ -40,24 +67,26 @@
 </script>
 
 <div>
-	<ul>
-		{#each todos as { id, title, completed } (id)}
-			<li>
-				<label>
-					<input
-						type="checkbox"
-						on:input={(event) => {
-							event.currentTarget.checked = completed;
-							handleToggleTodo(id, !completed);
-						}}
-						checked={completed}
-					/>
-					{title}
-				</label>
-				<button on:click={() => handleRemoveTodo(id)}>Remove</button>
-			</li>
-		{/each}
-	</ul>
+	<div class="todo-list" bind:this={listDiv}>
+		<ul>
+			{#each todos as { id, title, completed } (id)}
+				<li>
+					<label>
+						<input
+							type="checkbox"
+							on:input={(event) => {
+								event.currentTarget.checked = completed;
+								handleToggleTodo(id, !completed);
+							}}
+							checked={completed}
+						/>
+						{title}
+					</label>
+					<button on:click={() => handleRemoveTodo(id)}>Remove</button>
+				</li>
+			{/each}
+		</ul>
+	</div>
 	{inputText}
 	<form class="add-todo-form" on:submit|preventDefault={handleAddTodo}>
 		<input bind:this={input} bind:value={inputText} />
