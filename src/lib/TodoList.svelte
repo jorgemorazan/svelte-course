@@ -27,11 +27,19 @@
 	});
 
 	afterUpdate(() => {
-		console.log(listDiv.offsetHeight);
+		if (autoScroll) {
+			listDiv.scrollTo(0, listDiv.scrollHeight);
+			autoScroll = false;
+		}
 	});
 
 	export let todos = [];
-	export const readOnly = 'readonly';
+	let prevTodos = todos;
+
+	$: {
+		autoScroll = todos.length > prevTodos.length;
+		prevTodos = todos;
+	}
 
 	export function clearInput() {
 		inputText = '';
@@ -40,7 +48,7 @@
 		input.focus();
 	}
 	let inputText = '';
-	let input, listDiv;
+	let input, listDiv, autoScroll;
 
 	const dispatch = createEventDispatcher();
 
@@ -87,9 +95,15 @@
 			{/each}
 		</ul>
 	</div>
-	{inputText}
 	<form class="add-todo-form" on:submit|preventDefault={handleAddTodo}>
 		<input bind:this={input} bind:value={inputText} />
 		<BaseButton type="submit" disabled={!inputText}>Add</BaseButton>
 	</form>
 </div>
+
+<style>
+	.todo-list {
+		max-height: 150px;
+		overflow: auto;
+	}
+</style>
