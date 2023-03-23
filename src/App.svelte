@@ -30,7 +30,6 @@
 			{ id: uuid(), title: event.detail.title, completed: false }
 		];
 		await tick();
-		console.log(document.querySelectorAll('.todo-list ul li'));
 		todoList.clearInput();
 	}
 

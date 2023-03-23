@@ -2,29 +2,8 @@
 
 <script lang="ts">
 	import BaseButton from './BaseButton.svelte';
-	import {
-		afterUpdate,
-		beforeUpdate,
-		createEventDispatcher,
-		onDestroy,
-		onMount
-	} from 'svelte';
-
-	onMount(() => {
-		console.log('Mounted');
-		return () => {
-			console.log('Destroyed 2');
-		};
-	});
-
-	onDestroy(() => {
-		console.log('Destroyed');
-	});
-
-	beforeUpdate(() => {
-		if (!listDiv) return;
-		console.log(listDiv.offsetHeight);
-	});
+	import { afterUpdate, createEventDispatcher } from 'svelte';
+	import FaRegTrashAlt from 'svelte-icons/fa/FaRegTrashAlt.svelte';
 
 	afterUpdate(() => {
 		if (autoScroll) {
@@ -34,7 +13,10 @@
 	});
 
 	export let todos = [];
+	const dispatch = createEventDispatcher();
 	let prevTodos = todos;
+	let inputText = '';
+	let input, listDiv, autoScroll, listDivScrollHeight;
 
 	$: {
 		autoScroll = todos.length > prevTodos.length;
@@ -47,10 +29,6 @@
 	export function focusInput() {
 		input.focus();
 	}
-	let inputText = '';
-	let input, listDiv, autoScroll, listDivScrollHeight;
-
-	const dispatch = createEventDispatcher();
 
 	function handleAddTodo() {
 		if (!inputText) return;
@@ -77,28 +55,40 @@
 <div>
 	<div class="todo-list" bind:this={listDiv}>
 		<div bind:offsetHeight={listDivScrollHeight}>
-			<ul>
-				{#each todos as { id, title, completed } (id)}
-					<li>
-						<label>
-							<input
-								type="checkbox"
-								on:input={(event) => {
-									event.currentTarget.checked = completed;
-									handleToggleTodo(id, !completed);
-								}}
-								checked={completed}
-							/>
-							{title}
-						</label>
-						<button on:click={() => handleRemoveTodo(id)}>Remove</button>
-					</li>
-				{/each}
-			</ul>
+			{#if todos.length === 0}
+				<p class="no-items-text">No todos yet</p>
+			{:else}
+				<ul>
+					{#each todos as { id, title, completed } (id)}
+						<li>
+							<label>
+								<input
+									type="checkbox"
+									on:input={(event) => {
+										event.currentTarget.checked = completed;
+										handleToggleTodo(id, !completed);
+									}}
+									checked={completed}
+								/>
+								{title}
+							</label>
+							<button
+								class="remove-todo-button"
+								aria-label="Remove todo: {title}"
+								on:click={() => handleRemoveTodo(id)}
+							>
+								<span style:width="10px" style:display="inline-block"
+									><FaRegTrashAlt /></span
+								></button
+							>
+						</li>
+					{/each}
+				</ul>
+			{/if}
 		</div>
 	</div>
 	<form class="add-todo-form" on:submit|preventDefault={handleAddTodo}>
-		<input bind:this={input} bind:value={inputText} />
+		<input bind:this={input} bind:value={inputText} placeholder="New Todo" />
 		<BaseButton type="submit" disabled={!inputText}>Add</BaseButton>
 	</form>
 </div>
