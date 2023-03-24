@@ -4,7 +4,7 @@
 	import BaseButton from './BaseButton.svelte';
 	import { afterUpdate, createEventDispatcher } from 'svelte';
 	import FaRegTrashAlt from 'svelte-icons/fa/FaRegTrashAlt.svelte';
-	import { scale } from 'svelte/transition';
+	import { scale, crossfade } from 'svelte/transition';
 	import { flip } from 'svelte/animate';
 
 	afterUpdate(() => {
@@ -15,6 +15,13 @@
 		if (autoScroll) {
 			listDiv.scrollTo(0, pos);
 			autoScroll = false;
+		}
+	});
+
+	const [send, receive] = crossfade({
+		duration: 400,
+		fallback(node) {
+			return scale(node, { start: 0.5, duration: 300 });
 		}
 	});
 
@@ -83,12 +90,13 @@
 							<div class="list-wrapper">
 								<h2>{index === 0 ? 'Todo' : 'Done'}</h2>
 								<ul>
-									{#each todos as todo, index (todo.id)}
+									{#each list as todo, index (todo.id)}
 										{@const { id, completed, title } = todo}
 										<li animate:flip={{ duration: 400 }}>
 											<slot {todo} {index}>
 												<div
-													transition:scale|local={{ start: 0.5, duration: 300 }}
+													in:receive|local={{ key: id }}
+													out:send|local={{ key: id }}
 													class:completed
 												>
 													<label>
