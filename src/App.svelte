@@ -4,6 +4,7 @@
 	import TodoList from './lib/TodoList.svelte';
 	import { v4 as uuid } from 'uuid';
 	import { onMount, tick } from 'svelte';
+	import { fly } from 'svelte/transition';
 
 	let todoList;
 	let showList = true;
@@ -104,7 +105,7 @@
 	Show List
 </label>
 {#if showList}
-	<div style:max-width="400px">
+	<div transition:fly={{ y: 400, duration: 10000 }} style:max-width="400px">
 		<TodoList
 			{todos}
 			{error}
