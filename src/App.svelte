@@ -9,6 +9,7 @@
 	let error = null;
 	let isLoading = false;
 	let isAdding = false;
+	let disabledItems = [];
 
 	onMount(() => {
 		loadTodos();
@@ -41,7 +42,6 @@
 		}).then(async (response) => {
 			if (response.ok) {
 				const todo = await response.json();
-				console.log(todo);
 				todos = [...todos, { ...todo, id: uuid() }];
 				todoList.clearInput();
 			} else {
@@ -55,7 +55,18 @@
 
 	function handleRemoveTodo(event) {
 		const id = event.detail.id;
-		todos = todos.filter((todo) => todo.id !== id);
+		if (disabledItems.includes(id)) return;
+		disabledItems = [...disabledItems, id];
+		fetch(`https://jsonplaceholder.typicode.com/todos/${id}`).then(
+			(response) => {
+				if (response.ok) {
+					todos = todos.filter((todo) => todo.id !== id);
+				} else {
+					alert('An error has occurred!');
+				}
+			}
+		);
+		disabledItems = disabledItems.filter((item) => item.id !== id);
 	}
 
 	function handleToggleTodo(event) {

@@ -16,6 +16,7 @@
 	export let error = null;
 	export let isLoading = false;
 	export let disableAdding = false;
+	export let disabledItems = [];
 	const dispatch = createEventDispatcher();
 	let prevTodos = todos;
 	let inputText = '';
@@ -35,7 +36,6 @@
 
 	function handleAddTodo() {
 		if (!inputText) return;
-		console.log(inputText);
 		const isNotCancellable = dispatch(
 			'addtodo',
 			{ title: inputText },
@@ -73,6 +73,7 @@
 								<label>
 									<input
 										type="checkbox"
+										disabled={disabledItems.includes(id)}
 										on:input={(event) => {
 											event.currentTarget.checked = completed;
 											handleToggleTodo(id, !completed);
@@ -83,6 +84,7 @@
 								</label>
 								<button
 									class="remove-todo-button"
+									disabled={disabledItems.includes(id)}
 									aria-label="Remove todo: {title}"
 									on:click={() => handleRemoveTodo(id)}
 								>
@@ -159,6 +161,10 @@
 						right: 10px;
 						cursor: pointer;
 						display: none;
+						&:disabled {
+							opacity: 0.4;
+							cursor: not-allowed;
+						}
 						:global(svg) {
 							fill: #bd1414;
 						}
