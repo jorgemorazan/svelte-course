@@ -5,10 +5,15 @@
 	import { afterUpdate, createEventDispatcher } from 'svelte';
 	import FaRegTrashAlt from 'svelte-icons/fa/FaRegTrashAlt.svelte';
 	import { scale } from 'svelte/transition';
+	import { flip } from 'svelte/animate';
 
 	afterUpdate(() => {
+		if (!scrollOnAdd) return;
+		let pos;
+		if (scrollOnAdd === 'top') pos = 0;
+		if (scrollOnAdd === 'bottom') pos = listDivScrollHeight;
 		if (autoScroll) {
-			listDiv.scrollTo(0, listDivScrollHeight);
+			listDiv.scrollTo(0, pos);
 			autoScroll = false;
 		}
 	});
@@ -18,6 +23,7 @@
 	export let isLoading = false;
 	export let disableAdding = false;
 	export let disabledItems = [];
+	export let scrollOnAdd = undefined;
 	const dispatch = createEventDispatcher();
 	let prevTodos = todos;
 	let inputText = '';
@@ -71,7 +77,7 @@
 					<ul>
 						{#each todos as todo, index (todo.id)}
 							{@const { id, completed, title } = todo}
-							<li>
+							<li animate:flip={{ duration: 400 }}>
 								<slot {todo} {index}>
 									<div
 										transition:scale|local={{ start: 0.5, duration: 300 }}
