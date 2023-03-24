@@ -5,7 +5,7 @@
 	import { v4 as uuid } from 'uuid';
 	import { onMount, tick } from 'svelte';
 	import { fly } from 'svelte/transition';
-	import spin from './lib/transitions/spin';
+	import fade from './lib/transitions/spin';
 
 	let todoList;
 	let showList = true;
@@ -104,7 +104,7 @@
 	Show List
 </label>
 {#if showList}
-	<div transition:spin={{ spin: 6 }} style:max-width="400px">
+	<div transition:fade={{ duration: 1000 }} style:max-width="400px">
 		<TodoList
 			{todos}
 			{error}
