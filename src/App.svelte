@@ -52,8 +52,6 @@
 			}
 		});
 		isAdding = false;
-		await tick();
-		todoList.focus();
 	}
 
 	async function handleRemoveTodo(event) {
@@ -121,6 +119,15 @@
 			<svelte:fragment slot="title">{index + 1} {todo.title}</svelte:fragment>
 		</TodoList>
 	</div>
+	{#if todos}
+		<p>
+			Number of todos: {#key todos.length}
+				<span style:display="inline-block" in:fly|local={{ y: -10 }}>
+					{todos.length}
+				</span>
+			{/key}
+		</p>
+	{/if}
 {/if}
 
 <style></style>
