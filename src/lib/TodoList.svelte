@@ -4,6 +4,7 @@
 	import BaseButton from './BaseButton.svelte';
 	import { afterUpdate, createEventDispatcher } from 'svelte';
 	import FaRegTrashAlt from 'svelte-icons/fa/FaRegTrashAlt.svelte';
+	import { scale } from 'svelte/transition';
 
 	afterUpdate(() => {
 		if (autoScroll) {
@@ -72,7 +73,10 @@
 							{@const { id, completed, title } = todo}
 							<li>
 								<slot {todo} {index}>
-									<div class:completed>
+									<div
+										transition:scale|local={{ start: 0.5, duration: 300 }}
+										class:completed
+									>
 										<label>
 											<input
 												type="checkbox"
