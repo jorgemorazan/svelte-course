@@ -15,6 +15,7 @@
 	export let todos = null;
 	export let error = null;
 	export let isLoading = false;
+	export let disableAdding = false;
 	const dispatch = createEventDispatcher();
 	let prevTodos = todos;
 	let inputText = '';
@@ -34,6 +35,7 @@
 
 	function handleAddTodo() {
 		if (!inputText) return;
+		console.log(inputText);
 		const isNotCancellable = dispatch(
 			'addtodo',
 			{ title: inputText },
@@ -96,9 +98,16 @@
 		</div>
 	{/if}
 	<form class="add-todo-form" on:submit|preventDefault={handleAddTodo}>
-		<input bind:this={input} bind:value={inputText} placeholder="New Todo" />
-		<BaseButton class="add-todo-button" type="submit" disabled={!inputText}
-			>Add</BaseButton
+		<input
+			bind:this={input}
+			bind:value={inputText}
+			disabled={disableAdding || !todos}
+			placeholder="New Todo"
+		/>
+		<BaseButton
+			class="add-todo-button"
+			type="submit"
+			disabled={!inputText || disableAdding || !todos}>Add</BaseButton
 		>
 	</form>
 </div>
