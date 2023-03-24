@@ -66,7 +66,7 @@
 				alert('An error has occurred!');
 			}
 		});
-		disabledItems = disabledItems.filter((item) => item.id !== id);
+		disabledItems = disabledItems.filter((item) => item !== id);
 	}
 
 	async function handleToggleTodo(event) {
@@ -93,7 +93,7 @@
 				alert('An error has occurred!');
 			}
 		});
-		disabledItems = disabledItems.filter((item) => item.id !== id);
+		disabledItems = disabledItems.filter((item) => item !== id);
 	}
 </script>
 
