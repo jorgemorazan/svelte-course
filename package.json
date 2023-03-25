@@ -17,6 +17,7 @@
   "dependencies": {
     "svelte-icons": "^2.1.0",
     "svelte-preprocess": "^5.0.1",
+    "tippy.js": "^6.3.7",
     "uuid": "^9.0.0"
   }
 }

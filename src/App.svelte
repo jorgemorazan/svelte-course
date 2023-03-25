@@ -1,18 +1,19 @@
 <script>
-	import longpress from './lib/actions/longpress';
-	let showButton = true;
-	let duration = 1000;
+	import { onMount } from 'svelte';
+	import tippy from 'tippy.js';
+	import 'tippy.js/dist/tippy.css';
+
+	let button;
+
+	onMount(() => {
+		tippy('.tooltip', {
+			content: 'tooltip content'
+		});
+		tippy(button, {
+			content: 'here'
+		});
+	});
 </script>
 
-<label><input type="checkbox" bind:checked={showButton} />Toggle</label>
-<label>
-	<input type="range" bind:value={duration} max={4000} step={100} />{duration} ms
-</label>
-{#if showButton}
-	<button
-		use:longpress={{ duration }}
-		on:longpress={() => {
-			alert('pressed');
-		}}>Button</button
-	>
-{/if}
+<button class="tooltip" data-tippy-content="other text">Button</button>
+<button bind:this={button}>Button</button>
