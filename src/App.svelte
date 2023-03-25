@@ -9,5 +9,10 @@
 	<input type="range" bind:value={duration} max={4000} step={100} />{duration} ms
 </label>
 {#if showButton}
-	<button use:longpress={{ duration }}>Button</button>
+	<button
+		use:longpress={{ duration }}
+		on:longpress={() => {
+			alert('pressed');
+		}}>Button</button
+	>
 {/if}
