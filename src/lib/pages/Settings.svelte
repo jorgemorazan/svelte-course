@@ -1,24 +1,18 @@
 <script>
-	import { onDestroy } from 'svelte';
 	import settings from '../stores/settings';
-	let colorScheme;
-	const unsubscribe = settings.subscribe(
-		(settings) => (colorScheme = settings.colorScheme)
-	);
-
-	$: {
-		settings.update((prevSettings) => ({ ...prevSettings, colorScheme }));
-	}
-
-	onDestroy(unsubscribe);
 </script>
 
 <h2>Settings</h2>
+<button
+	on:click={() => {
+		$settings.colorScheme = $settings.colorScheme === 'dark' ? 'light' : 'dark';
+	}}>Toggle Color Scheme</button
+>
 
 <label>
 	<input
 		type="radio"
-		bind:group={colorScheme}
+		bind:group={$settings.colorScheme}
 		name="colorScheme"
 		value="dark"
 	/>
@@ -28,7 +22,7 @@
 <label>
 	<input
 		type="radio"
-		bind:group={colorScheme}
+		bind:group={$settings.colorScheme}
 		name="colorScheme"
 		value="light"
 	/>
